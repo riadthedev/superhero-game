@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Hero Mission!</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --hero-red: #e63946;
+    --hero-blue: #1d8cf8;
+    --hero-yellow: #ffd60a;
+    --hero-purple: #7b2cbf;
+    --hero-green: #80b918;
+    --hero-dark: #0d1b2a;
+    --hero-light: #fff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  body {
+    font-family: 'Fredoka', sans-serif;
+    background: var(--hero-dark);
+    color: var(--hero-light);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(230, 57, 70, 0.25) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(29, 140, 248, 0.25) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(255, 214, 10, 0.15) 0%, transparent 60%);
+    z-index: 0;
+    animation: bgShift 15s ease-in-out infinite;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  @keyframes bgShift {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  .stage {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ===== TITLE SCREEN ===== */
+  .title-screen {
+    text-align: center;
+    animation: heroEnter 0.8s ease-out;
+  }
+
+  .title-screen h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3rem, 10vw, 7rem);
+    letter-spacing: 4px;
+    line-height: 0.9;
+    color: var(--hero-yellow);
+    text-shadow:
+      4px 4px 0 var(--hero-red),
+      8px 8px 0 var(--hero-dark),
+      0 0 30px rgba(255, 214, 10, 0.5);
+    transform: rotate(-3deg);
+    margin-bottom: 30px;
+    animation: titlePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes titlePulse {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50% { transform: rotate(-3deg) scale(1.03); }
+  }
+
+  .title-screen p {
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    margin-bottom: 40px;
+    color: var(--hero-light);
+    font-weight: 500;
+  }
+
+  .start-btn {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    letter-spacing: 3px;
+    padding: 20px 60px;
+    background: var(--hero-red);
+    color: white;
+    border: 6px solid var(--hero-yellow);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 0 #8b1e2a, 0 12px 30px rgba(0,0,0,0.4);
+    transition: all 0.15s ease;
+    transform: rotate(-2deg);
+  }
+
+  .start-btn:hover {
+    transform: rotate(-2deg) translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 0 #8b1e2a, 0 16px 40px rgba(0,0,0,0.5);
+  }
+
+  .start-btn:active {
+    transform: rotate(-2deg) translateY(4px);
+    box-shadow: 0 4px 0 #8b1e2a;
+  }
+
+  /* ===== QUESTION SCREEN ===== */
+  .question-screen {
+    width: 100%;
+    text-align: center;
+    animation: heroEnter 0.6s ease-out;
+  }
+
+  .question-counter {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: var(--hero-yellow);
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 var(--hero-red);
+  }
+
+  .question-card {
+    background: white;
+    color: var(--hero-dark);
+    border-radius: 30px;
+    padding: 40px 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4);
+    border: 8px solid var(--hero-yellow);
+    position: relative;
+    transform: rotate(-1deg);
+  }
+
+  .question-card::before {
+    content: "💬";
+    position: absolute;
+    top: -25px;
+    left: 30px;
+    font-size: 2.5rem;
+    background: var(--hero-yellow);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--hero-dark);
+  }
+
+  .question-card p {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 700px) {
+    .options { grid-template-columns: 1fr; }
+  }
+
+  .option-btn {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    padding: 25px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    border: 6px solid var(--hero-dark);
+    transition: all 0.2s ease;
+    color: white;
+    text-align: center;
+    line-height: 1.4;
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--hero-blue), #0a4b8c);
+    box-shadow: 0 8px 0 #0a4b8c, 0 12px 25px rgba(0,0,0,0.3);
+  }
+
+  .option-btn:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 13px 0 #0a4b8c, 0 16px 35px rgba(0,0,0,0.4);
+  }
+
+  .option-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #0a4b8c;
+  }
+
+  .option-btn .badge {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    background: var(--hero-yellow);
+    color: var(--hero-dark);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--hero-dark);
+  }
+
+  /* ===== VIDEO SCREEN ===== */
+  .video-screen {
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    animation: heroEnter 0.5s ease-out;
+  }
+
+  .video-label {
+    font-family: 'Bangers', cursive;
+    font-size: 2rem;
+    letter-spacing: 2px;
+    color: var(--hero-yellow);
+    margin-bottom: 8px;
+    text-shadow: 3px 3px 0 var(--hero-red);
+  }
+
+  .video-filename {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 20px;
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+
+  .video-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 8px solid var(--hero-yellow);
+    border-radius: 25px;
+    overflow: hidden;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+    background: black;
+    margin-bottom: 25px;
+  }
+
+  .video-frame video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: black;
+  }
+
+  .video-error {
+    display: none;
+    background: rgba(230, 57, 70, 0.2);
+    border: 3px dashed var(--hero-red);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    color: white;
+    font-weight: 500;
+  }
+
+  .video-error.show { display: block; }
+
+  .next-btn {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    padding: 18px 45px;
+    background: var(--hero-green);
+    color: white;
+    border: 5px solid var(--hero-dark);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #5a8412, 0 10px 25px rgba(0,0,0,0.3);
+    transition: all 0.15s ease;
+  }
+
+  .next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 #5a8412, 0 13px 30px rgba(0,0,0,0.4);
+  }
+
+  .next-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #5a8412;
+  }
+
+  /* ===== END SCREEN ===== */
+  .end-screen {
+    text-align: center;
+    width: 100%;
+    max-width: 900px;
+    animation: heroEnter 0.8s ease-out;
+  }
+
+  .end-screen h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3rem, 9vw, 6rem);
+    letter-spacing: 4px;
+    color: var(--hero-yellow);
+    text-shadow:
+      4px 4px 0 var(--hero-red),
+      8px 8px 0 var(--hero-dark);
+    transform: rotate(-2deg);
+    margin-bottom: 20px;
+  }
+
+  .end-screen p {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    margin-bottom: 25px;
+    font-weight: 500;
+  }
+
+  .badge-emoji {
+    font-size: clamp(4rem, 10vw, 6rem);
+    display: inline-block;
+    animation: heroSpin 3s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+
+  @keyframes heroSpin {
+    0%, 100% { transform: rotate(-10deg) scale(1); }
+    50% { transform: rotate(10deg) scale(1.1); }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes heroEnter {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Comic POW! decorations */
+  .pow {
+    position: fixed;
+    font-family: 'Bangers', cursive;
+    font-size: 4rem;
+    color: var(--hero-yellow);
+    text-shadow: 4px 4px 0 var(--hero-red), 8px 8px 0 var(--hero-dark);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.3;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .pow-1 { top: 10%; left: 5%; transform: rotate(-15deg); animation-delay: 0s; }
+  .pow-2 { top: 70%; right: 5%; transform: rotate(20deg); animation-delay: 2s; }
+  .pow-3 { top: 40%; left: 8%; transform: rotate(10deg); animation-delay: 4s; font-size: 3rem; }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--r, 0deg)); }
+    50% { transform: translateY(-20px) rotate(var(--r, 0deg)); }
+  }
+
+  .hidden { display: none !important; }
+
+  .progress {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .progress-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 3px solid var(--hero-yellow);
+    transition: all 0.3s ease;
+  }
+
+  .progress-dot.active {
+    background: var(--hero-yellow);
+    box-shadow: 0 0 15px var(--hero-yellow);
+    transform: scale(1.2);
+  }
+
+  .progress-dot.done {
+    background: var(--hero-green);
+    border-color: var(--hero-green);
+  }
+
+  /* Mute toggle */
+  .mute-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    background: rgba(255,255,255,0.1);
+    border: 3px solid var(--hero-yellow);
+    color: var(--hero-yellow);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(10px);
+  }
+
+  .mute-btn:hover {
+    background: var(--hero-yellow);
+    color: var(--hero-dark);
+    transform: scale(1.1);
+  }
+
+  /* Confetti for end screen */
+  .confetti {
+    position: fixed;
+    width: 10px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 5;
+    animation: confettiFall linear forwards;
+    top: -20px;
+  }
+
+  @keyframes confettiFall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+<button class="mute-btn" id="muteBtn" onclick="toggleMute()" title="Toggle sound">🔊</button>
+
+<div class="pow pow-1">POW!</div>
+<div class="pow pow-2">BAM!</div>
+<div class="pow pow-3">ZAP!</div>
+
+<div class="stage">
+
+  <!-- TITLE SCREEN -->
+  <div id="titleScreen" class="title-screen">
+    <h1>Super Hero<br>Mission!</h1>
+    <p>🦸 Help our hero answer questions from the citizens of the city! 🦸‍♀️</p>
+    <button class="start-btn" onclick="startGame()">START MISSION!</button>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div id="questionScreen" class="question-screen hidden">
+    <div class="progress" id="progress"></div>
+    <div class="question-counter" id="questionCounter">QUESTION 1</div>
+    <div class="question-card">
+      <p id="questionText">Question goes here</p>
+    </div>
+    <div class="options">
+      <button class="option-btn" onclick="chooseOption('a')">
+        <span class="badge">A</span>
+        <span id="optionAText">Option A</span>
+      </button>
+      <button class="option-btn" onclick="chooseOption('b')">
+        <span class="badge">B</span>
+        <span id="optionBText">Option B</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- VIDEO SCREEN -->
+  <div id="videoScreen" class="video-screen hidden">
+    <div class="video-label" id="videoLabel">🎬 WATCH WHAT HAPPENS! 🎬</div>
+    <div class="video-filename" id="videoFilename">file.mp4</div>
+    <div class="video-frame">
+      <video id="videoPlayer" controls playsinline></video>
+    </div>
+    <div class="video-error" id="videoError">
+      ⚠️ Video could not load. Check that the file is uploaded and the filename matches.
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT! ➡️</button>
+  </div>
+
+  <!-- END SCREEN -->
+  <div id="endScreen" class="end-screen hidden">
+    <div class="badge-emoji">🏆</div>
+    <h1>Mission<br>Complete!</h1>
+    <div class="video-filename" id="endVideoFilename">end.mp4</div>
+    <div class="video-frame">
+      <video id="endVideoPlayer" controls playsinline></video>
+    </div>
+    <p style="margin-top: 25px;">You're a true superhero! 🦸‍♂️✨</p>
+    <button class="start-btn" onclick="restartGame()">PLAY AGAIN!</button>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   🦸 GAME DATA — EDIT HERE TO CHANGE QUESTIONS OR VIDEOS!
+   ============================================================
+
+   STEP 1: Upload your videos folder to Netlify (drag-and-drop)
+   STEP 2: Paste your Netlify site URL below as VIDEO_BASE_URL
+           (keep the trailing slash!)
+   STEP 3: Make sure each filename below matches your actual files.
+
+   Spaces and special characters in filenames are handled automatically.
+   ============================================================ */
+
+const VIDEO_BASE_URL = "https://your-site-name.netlify.app/";  // 👈 CHANGE THIS
+
+const GAME_DATA = {
+  // Plays right after the START button
+  introVideo: "Intro.mp4",
+
+  // Plays on the "Mission Complete" screen
+  endVideo: "End of the game.mp4",
+
+  questions: [
+    {
+      // QUESTION 1 — School / where they learned
+      text: "We see your costume uses some amazing science! You must have learned that from a wonderful school, where did you learn it?",
+      optionA: {
+        label: "I've learned from great educators and teachers",
+        video: "School name +.mp4"
+      },
+      optionB: {
+        label: "Oh I go to Sherwood Elementary, they have great teachers!",
+        video: "School name -.mp4"
+      }
+    },
+    {
+      // QUESTION 2 — Grade
+      text: "We can't thank you enough! You look so young, but you spend your free time saving the city. In what grade are you?",
+      optionA: {
+        label: "Thank you for thinking of me, don't worry I still find time to have fun!",
+        video: "Grade +.mp4"
+      },
+      optionB: {
+        label: "Yes it's difficult, I am in grade 5",
+        video: "Grade -.mp4"
+      }
+    },
+    {
+      // QUESTION 3 — Favorite spot
+      text: "After saving the city, you must need to relax... what's your favourite place to go?",
+      optionA: {
+        label: "I don't have a specific place, as long as I can sit and cool down a bit, I'm good.",
+        video: "Favorite spot +.mp4"
+      },
+      optionB: {
+        label: "I love going to Cows Ice Cream to relax!",
+        video: "Favorite spot -.mp4"
+      }
+    },
+    {
+      // QUESTION 4 — Home base
+      text: "Wow, that was fast! You got here in no time, is your secret base close by?",
+      optionA: {
+        label: "We don't want the bad guys to know where I am, do we? 😄",
+        video: "Home base +.mp4"
+      },
+      optionB: {
+        label: "My base is somewhat in the middle of the city that helps me get everywhere quickly",
+        video: "Home base -.mp4"
+      }
+    }
+  ]
+};
+
+/* ============================================================
+   GAME LOGIC — You shouldn't need to change anything below
+   ============================================================ */
+
+let currentQuestionIndex = 0;
+let isShowingIntro = true;
+let soundEnabled = true;
+
+const titleScreen    = document.getElementById('titleScreen');
+const questionScreen = document.getElementById('questionScreen');
+const videoScreen    = document.getElementById('videoScreen');
+const endScreen      = document.getElementById('endScreen');
+const videoPlayer    = document.getElementById('videoPlayer');
+const endVideoPlayer = document.getElementById('endVideoPlayer');
+const videoError     = document.getElementById('videoError');
+
+/* ===== SOUND EFFECTS using Web Audio API =====
+   No external files needed. All sounds are generated in-browser. */
+
+let audioCtx = null;
+function getAudio() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+
+function playTone(freq, duration, type = 'sine', volume = 0.2, slideTo = null) {
+  if (!soundEnabled) return;
+  try {
+    const ctx = getAudio();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, ctx.currentTime);
+    if (slideTo !== null) {
+      osc.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime + duration);
+    }
+    gain.gain.setValueAtTime(volume, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duration);
+  } catch (e) { /* audio blocked */ }
+}
+
+const sfx = {
+  // "BWOOP!" launch sound for the start button
+  heroLaunch: () => {
+    playTone(200, 0.2, 'square', 0.15, 600);
+    setTimeout(() => playTone(600, 0.3, 'sawtooth', 0.12, 1000), 100);
+  },
+  // Quick "click" for option buttons
+  click: () => {
+    playTone(800, 0.05, 'square', 0.15);
+    setTimeout(() => playTone(1200, 0.05, 'square', 0.12), 50);
+  },
+  // "Whoosh" when a video starts
+  whoosh: () => {
+    playTone(100, 0.4, 'sawtooth', 0.1, 800);
+  },
+  // "Ding!" when advancing
+  ding: () => {
+    playTone(880, 0.1, 'sine', 0.2);
+    setTimeout(() => playTone(1320, 0.15, 'sine', 0.2), 80);
+  },
+  // Victory fanfare for end screen
+  victory: () => {
+    const notes = [523, 659, 784, 1047]; // C-E-G-C
+    notes.forEach((n, i) => {
+      setTimeout(() => playTone(n, 0.25, 'square', 0.15), i * 120);
+    });
+    setTimeout(() => playTone(1568, 0.5, 'sawtooth', 0.18), 600);
+  }
+};
+
+function toggleMute() {
+  soundEnabled = !soundEnabled;
+  document.getElementById('muteBtn').textContent = soundEnabled ? '🔊' : '🔇';
+  if (soundEnabled) sfx.click();
+}
+
+/* ===== VIDEO HANDLING ===== */
+
+function buildVideoUrl(filename) {
+  return VIDEO_BASE_URL + encodeURI(filename);
+}
+
+function loadVideo(player, filenameEl, filename, label) {
+  videoError.classList.remove('show');
+  if (label) document.getElementById('videoLabel').textContent = label;
+  filenameEl.textContent = `📁 ${filename}`;
+  player.src = buildVideoUrl(filename);
+  player.load();
+  const playPromise = player.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(() => { /* autoplay may be blocked, controls are visible */ });
+  }
+}
+
+videoPlayer.addEventListener('error', () => {
+  videoError.classList.add('show');
+});
+
+/* ===== SCREEN MANAGEMENT ===== */
+
+function showOnly(screen) {
+  [titleScreen, questionScreen, videoScreen, endScreen].forEach(s => s.classList.add('hidden'));
+  screen.classList.remove('hidden');
+}
+
+function renderProgress() {
+  const progressEl = document.getElementById('progress');
+  progressEl.innerHTML = '';
+  GAME_DATA.questions.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'progress-dot';
+    if (i < currentQuestionIndex) dot.classList.add('done');
+    if (i === currentQuestionIndex) dot.classList.add('active');
+    progressEl.appendChild(dot);
+  });
+}
+
+/* ===== GAME FLOW ===== */
+
+function startGame() {
+  sfx.heroLaunch();
+  currentQuestionIndex = 0;
+  isShowingIntro = true;
+  setTimeout(() => sfx.whoosh(), 300);
+  loadVideo(videoPlayer, document.getElementById('videoFilename'), GAME_DATA.introVideo, "🎬 GET READY, HERO! 🎬");
+  showOnly(videoScreen);
+}
+
+function showQuestion() {
+  const q = GAME_DATA.questions[currentQuestionIndex];
+  document.getElementById('questionCounter').textContent = `QUESTION ${currentQuestionIndex + 1} OF ${GAME_DATA.questions.length}`;
+  document.getElementById('questionText').textContent = q.text;
+  document.getElementById('optionAText').textContent = q.optionA.label;
+  document.getElementById('optionBText').textContent = q.optionB.label;
+  renderProgress();
+  showOnly(questionScreen);
+}
+
+function chooseOption(choice) {
+  sfx.click();
+  const q = GAME_DATA.questions[currentQuestionIndex];
+  const filename = choice === 'a' ? q.optionA.video : q.optionB.video;
+  setTimeout(() => sfx.whoosh(), 100);
+  loadVideo(videoPlayer, document.getElementById('videoFilename'), filename, "🎬 WATCH WHAT HAPPENS! 🎬");
+  showOnly(videoScreen);
+}
+
+function nextQuestion() {
+  sfx.ding();
+  videoPlayer.pause();
+  videoPlayer.removeAttribute('src');
+  videoPlayer.load();
+
+  if (isShowingIntro) {
+    isShowingIntro = false;
+    showQuestion();
+    return;
+  }
+
+  currentQuestionIndex++;
+  if (currentQuestionIndex >= GAME_DATA.questions.length) {
+    showEndScreen();
+  } else {
+    showQuestion();
+  }
+}
+
+function showEndScreen() {
+  loadVideo(endVideoPlayer, document.getElementById('endVideoFilename'), GAME_DATA.endVideo, null);
+  showOnly(endScreen);
+  setTimeout(() => sfx.victory(), 200);
+  launchConfetti();
+}
+
+function restartGame() {
+  sfx.click();
+  currentQuestionIndex = 0;
+  isShowingIntro = true;
+  videoPlayer.pause();
+  videoPlayer.removeAttribute('src');
+  endVideoPlayer.pause();
+  endVideoPlayer.removeAttribute('src');
+  showOnly(titleScreen);
+}
+
+/* ===== CONFETTI ===== */
+function launchConfetti() {
+  const colors = ['#ffd60a', '#e63946', '#1d8cf8', '#80b918', '#7b2cbf'];
+  for (let i = 0; i < 60; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.animationDuration = (2 + Math.random() * 2) + 's';
+      c.style.transform = `rotate(${Math.random() * 360}deg)`;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 4500);
+    }, i * 30);
+  }
+}
+</script>
+
+</body>
+</html>
