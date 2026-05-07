@@ -99,7 +99,7 @@
   }
 
   .title-screen p {
-    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.4rem, 3vw, 1.9rem);
     margin-bottom: 40px;
     color: var(--hero-light);
     font-weight: 500;
@@ -107,7 +107,7 @@
 
   .start-btn {
     font-family: 'Bangers', cursive;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1.6rem, 4vw, 2.6rem);
     letter-spacing: 3px;
     padding: 20px 60px;
     background: var(--hero-red);
@@ -139,7 +139,7 @@
 
   .question-counter {
     font-family: 'Bangers', cursive;
-    font-size: 1.8rem;
+    font-size: 2.2rem;
     letter-spacing: 2px;
     color: var(--hero-yellow);
     margin-bottom: 15px;
@@ -150,7 +150,7 @@
     background: white;
     color: var(--hero-dark);
     border-radius: 30px;
-    padding: 40px 30px;
+    padding: 45px 35px;
     margin-bottom: 30px;
     box-shadow: 0 15px 50px rgba(0,0,0,0.4);
     border: 8px solid var(--hero-yellow);
@@ -175,7 +175,7 @@
   }
 
   .question-card p {
-    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    font-size: clamp(1.4rem, 3vw, 2rem);
     font-weight: 600;
     line-height: 1.5;
   }
@@ -196,8 +196,8 @@
   .option-btn {
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
-    font-size: clamp(1rem, 2vw, 1.2rem);
-    padding: 25px 20px;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    padding: 28px 22px;
     border-radius: 25px;
     cursor: pointer;
     border: 6px solid var(--hero-dark);
@@ -207,7 +207,7 @@
     line-height: 1.4;
     position: relative;
     overflow: hidden;
-    min-height: 120px;
+    min-height: 130px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -229,11 +229,11 @@
 
   .option-btn .badge {
     font-family: 'Bangers', cursive;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     background: var(--hero-yellow);
     color: var(--hero-dark);
-    width: 40px;
-    height: 40px;
+    width: 46px;
+    height: 46px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -244,31 +244,26 @@
   /* ===== VIDEO SCREEN ===== */
   .video-screen {
     width: 100%;
-    max-width: 900px;
     text-align: center;
     animation: heroEnter 0.5s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .video-label {
     font-family: 'Bangers', cursive;
-    font-size: 2rem;
+    font-size: 2.4rem;
     letter-spacing: 2px;
     color: var(--hero-yellow);
-    margin-bottom: 8px;
+    margin-bottom: 16px;
     text-shadow: 3px 3px 0 var(--hero-red);
   }
 
-  .video-filename {
-    font-size: 0.95rem;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 20px;
-    font-family: monospace;
-    letter-spacing: 1px;
-  }
-
   .video-frame {
-    width: 100%;
-    aspect-ratio: 16 / 9;
+    height: 72vh;
+    width: calc(72vh * 9 / 16);
+    max-width: 90vw;
     border: 8px solid var(--hero-yellow);
     border-radius: 25px;
     overflow: hidden;
@@ -282,6 +277,7 @@
     height: 100%;
     display: block;
     background: black;
+    object-fit: cover;
   }
 
   .video-error {
@@ -293,15 +289,16 @@
     margin-bottom: 20px;
     color: white;
     font-weight: 500;
+    font-size: 1.1rem;
   }
 
   .video-error.show { display: block; }
 
   .next-btn {
     font-family: 'Bangers', cursive;
-    font-size: 1.8rem;
+    font-size: 2rem;
     letter-spacing: 2px;
-    padding: 18px 45px;
+    padding: 18px 48px;
     background: var(--hero-green);
     color: white;
     border: 5px solid var(--hero-dark);
@@ -321,12 +318,113 @@
     box-shadow: 0 3px 0 #5a8412;
   }
 
+  /* ===== ROBOT POPUP ===== */
+  .robot-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 27, 42, 0.92);
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+  }
+
+  .robot-popup-card {
+    background: white;
+    color: var(--hero-dark);
+    border-radius: 30px;
+    padding: 50px 45px;
+    max-width: 500px;
+    width: 92%;
+    text-align: center;
+    border: 8px solid var(--hero-yellow);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 5px var(--hero-red);
+    animation: popupEnter 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes popupEnter {
+    from { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+    to   { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  .robot-icon {
+    font-size: 5rem;
+    display: block;
+    margin-bottom: 10px;
+    animation: robotBounce 0.7s ease-out;
+  }
+
+  @keyframes robotBounce {
+    0%   { transform: translateY(-40px); opacity: 0; }
+    60%  { transform: translateY(8px); }
+    80%  { transform: translateY(-4px); }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+
+  .robot-popup-card h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.4rem;
+    letter-spacing: 3px;
+    color: var(--hero-dark);
+    margin-bottom: 4px;
+  }
+
+  .robot-popup-card .move-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+  }
+
+  .robot-cell-display {
+    font-family: 'Bangers', cursive;
+    font-size: 8rem;
+    color: var(--hero-red);
+    text-shadow: 5px 5px 0 var(--hero-dark), 0 0 30px rgba(230,57,70,0.4);
+    line-height: 1;
+    margin: 12px 0 20px;
+    animation: cellPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s both;
+  }
+
+  @keyframes cellPop {
+    from { transform: scale(0); }
+    to   { transform: scale(1); }
+  }
+
+  .moved-btn {
+    font-family: 'Bangers', cursive;
+    font-size: 1.9rem;
+    letter-spacing: 2px;
+    padding: 18px 40px;
+    background: var(--hero-green);
+    color: white;
+    border: 5px solid var(--hero-dark);
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #5a8412;
+    transition: all 0.15s ease;
+    margin-top: 8px;
+  }
+
+  .moved-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 9px 0 #5a8412;
+  }
+
+  .moved-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 3px 0 #5a8412;
+  }
+
   /* ===== END SCREEN ===== */
   .end-screen {
     text-align: center;
     width: 100%;
-    max-width: 900px;
     animation: heroEnter 0.8s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .end-screen h1 {
@@ -342,7 +440,7 @@
   }
 
   .end-screen p {
-    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
     margin-bottom: 25px;
     font-weight: 500;
   }
@@ -397,8 +495,8 @@
   }
 
   .progress-dot {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
     border: 3px solid var(--hero-yellow);
@@ -425,10 +523,10 @@
     background: rgba(255,255,255,0.1);
     border: 3px solid var(--hero-yellow);
     color: var(--hero-yellow);
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 54px;
     border-radius: 50%;
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     cursor: pointer;
     transition: all 0.2s ease;
     backdrop-filter: blur(10px);
@@ -440,7 +538,7 @@
     transform: scale(1.1);
   }
 
-  /* Confetti for end screen */
+  /* Confetti */
   .confetti {
     position: fixed;
     width: 10px;
@@ -464,6 +562,17 @@
 <div class="pow pow-1">POW!</div>
 <div class="pow pow-2">BAM!</div>
 <div class="pow pow-3">ZAP!</div>
+
+<!-- ROBOT MOVE POPUP -->
+<div id="robotPopup" class="robot-popup hidden">
+  <div class="robot-popup-card">
+    <span class="robot-icon">🤖</span>
+    <h2>MOVE YOUR ROBOT!</h2>
+    <p class="move-text">Move your robot to:</p>
+    <div class="robot-cell-display" id="robotCellDisplay">B2</div>
+    <button class="moved-btn" onclick="robotMoved()">✅ I've moved my robot!</button>
+  </div>
+</div>
 
 <div class="stage">
 
@@ -496,21 +605,19 @@
   <!-- VIDEO SCREEN -->
   <div id="videoScreen" class="video-screen hidden">
     <div class="video-label" id="videoLabel">🎬 WATCH WHAT HAPPENS! 🎬</div>
-    <div class="video-filename" id="videoFilename">file.mp4</div>
     <div class="video-frame">
       <video id="videoPlayer" controls playsinline></video>
     </div>
     <div class="video-error" id="videoError">
       ⚠️ Video could not load. Check that the file is uploaded and the filename matches.
     </div>
-    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT! ➡️</button>
+    <button class="next-btn" id="nextBtn" onclick="handleNextBtn()">NEXT! ➡️</button>
   </div>
 
   <!-- END SCREEN -->
   <div id="endScreen" class="end-screen hidden">
     <div class="badge-emoji">🏆</div>
     <h1>Mission<br>Complete!</h1>
-    <div class="video-filename" id="endVideoFilename">end.mp4</div>
     <div class="video-frame">
       <video id="endVideoPlayer" controls playsinline></video>
     </div>
@@ -522,182 +629,325 @@
 
 <script>
 /* ============================================================
-   🦸 GAME DATA — EDIT HERE TO CHANGE QUESTIONS OR VIDEOS!
-   ============================================================
-
-   STEP 1: Upload your videos folder to Netlify (drag-and-drop)
-   STEP 2: Paste your Netlify site URL below as VIDEO_BASE_URL
-           (keep the trailing slash!)
-   STEP 3: Make sure each filename below matches your actual files.
-
-   Spaces and special characters in filenames are handled automatically.
+   GAME DATA
    ============================================================ */
 
-const VIDEO_BASE_URL = "https://superhero-game-a9m9.vercel.app/";  
+const VIDEO_BASE_URL = "https://superhero-game-a9m9.vercel.app/";
 
 const GAME_DATA = {
-  // Plays right after the START button
   introVideo: "Intro.mp4",
-
-  // Plays on the "Mission Complete" screen
   endVideo: "End of the game.mp4",
-
   questions: [
     {
-      // QUESTION 1 — School / where they learned
       text: "We see your costume uses some amazing science! You must have learned that from a wonderful school, where did you learn it?",
       optionA: {
         label: "I've learned from great educators and teachers",
-        video: "School name +.mp4"
+        video: "School name +.mp4",
+        robotCell: "B2"
       },
       optionB: {
         label: "Oh I go to Sherwood Elementary, they have great teachers!",
-        video: "School name -.mp4"
+        video: "School name -.mp4",
+        robotCell: "A2"
       }
     },
     {
-      // QUESTION 2 — Grade
       text: "We can't thank you enough! You look so young, but you spend your free time saving the city. In what grade are you?",
       optionA: {
         label: "Thank you for thinking of me, don't worry I still find time to have fun!",
-        video: "Grade +.mp4"
+        video: "Grade +.mp4",
+        robotCell: "C2"
       },
       optionB: {
         label: "Yes it's difficult, I am in grade 5",
-        video: "Grade -.mp4"
+        video: "Grade -.mp4",
+        robotCell: "A3"
       }
     },
     {
-      // QUESTION 3 — Favorite spot
       text: "After saving the city, you must need to relax... what's your favourite place to go?",
       optionA: {
         label: "I don't have a specific place, as long as I can sit and cool down a bit, I'm good.",
-        video: "Favorite spot +.mp4"
+        video: "Favorite spot +.mp4",
+        robotCell: "C5"
       },
       optionB: {
         label: "I love going to Cows Ice Cream to relax!",
-        video: "Favorite spot -.mp4"
+        video: "Favorite spot -.mp4",
+        robotCell: "A5"
       }
     },
     {
-      // QUESTION 4 — Home base
       text: "Wow, that was fast! You got here in no time, is your secret base close by?",
       optionA: {
-        label: "We don't want the bad guys to know where I am, do we? 😄",
-        video: "Home base +.mp4"
+        label: "We don't want the bad guys to know where I am, do we?",
+        video: "Home base +.mp4",
+        robotCell: "B4"
       },
       optionB: {
         label: "My base is somewhat in the middle of the city that helps me get everywhere quickly",
-        video: "Home base -.mp4"
+        video: "Home base -.mp4",
+        robotCell: "C3"
       }
     }
   ]
 };
 
 /* ============================================================
-   GAME LOGIC — You shouldn't need to change anything below
+   STATE
    ============================================================ */
 
 let currentQuestionIndex = 0;
 let isShowingIntro = true;
 let soundEnabled = true;
+let pendingRobotCell = null;
+let robotPopupActive = false;
 
-const titleScreen    = document.getElementById('titleScreen');
-const questionScreen = document.getElementById('questionScreen');
-const videoScreen    = document.getElementById('videoScreen');
-const endScreen      = document.getElementById('endScreen');
-const videoPlayer    = document.getElementById('videoPlayer');
-const endVideoPlayer = document.getElementById('endVideoPlayer');
-const videoError     = document.getElementById('videoError');
-
-/* ===== SOUND EFFECTS using Web Audio API =====
-   No external files needed. All sounds are generated in-browser. */
+/* ============================================================
+   AUDIO — shared AudioContext for SFX + music
+   ============================================================ */
 
 let audioCtx = null;
+
 function getAudio() {
   if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
   return audioCtx;
 }
 
-function playTone(freq, duration, type = 'sine', volume = 0.2, slideTo = null) {
+/* ----- BACKGROUND MUSIC ENGINE ----- */
+const bgMusic = (() => {
+  let gainNode = null;
+  let running = false;
+  let nextBeatTime = 0;
+  let beatCount = 0;
+  let schedulerId = null;
+
+  const BPM = 132;
+  const BEAT = 60 / BPM;
+  const LOOK_AHEAD = 0.25;
+  const SCHED_INTERVAL = 100;
+
+  // Heroic 16-beat melody in C major (loops)
+  const MELODY = [
+    523.25, 659.25, 783.99, 1046.50,
+    880.00, 783.99, 659.25, 523.25,
+    659.25, 783.99, 880.00, 783.99,
+    659.25, 523.25, 392.00, 523.25
+  ];
+
+  function ctx() { return getAudio(); }
+
+  function ensureGain() {
+    if (gainNode) return;
+    gainNode = ctx().createGain();
+    gainNode.gain.value = 0.28;
+    gainNode.connect(ctx().destination);
+  }
+
+  function makeKick(t) {
+    const osc = ctx().createOscillator();
+    const g = ctx().createGain();
+    osc.frequency.setValueAtTime(160, t);
+    osc.frequency.exponentialRampToValueAtTime(0.001, t + 0.35);
+    g.gain.setValueAtTime(0.65, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+    osc.connect(g); g.connect(gainNode);
+    osc.start(t); osc.stop(t + 0.36);
+  }
+
+  function makeSnare(t) {
+    const len = Math.floor(ctx().sampleRate * 0.12);
+    const buf = ctx().createBuffer(1, len, ctx().sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx().createBufferSource();
+    src.buffer = buf;
+    const g = ctx().createGain();
+    g.gain.setValueAtTime(0.22, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
+    src.connect(g); g.connect(gainNode);
+    src.start(t); src.stop(t + 0.13);
+  }
+
+  function makeHihat(t, vol) {
+    const len = Math.floor(ctx().sampleRate * 0.04);
+    const buf = ctx().createBuffer(1, len, ctx().sampleRate);
+    const data = buf.getChannelData(0);
+    for (let i = 0; i < len; i++) data[i] = Math.random() * 2 - 1;
+    const src = ctx().createBufferSource();
+    src.buffer = buf;
+    const hpf = ctx().createBiquadFilter();
+    hpf.type = 'highpass'; hpf.frequency.value = 8000;
+    const g = ctx().createGain();
+    g.gain.setValueAtTime(vol || 0.08, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+    src.connect(hpf); hpf.connect(g); g.connect(gainNode);
+    src.start(t); src.stop(t + 0.05);
+  }
+
+  function makeMelody(freq, t) {
+    const osc = ctx().createOscillator();
+    const g = ctx().createGain();
+    osc.type = 'square';
+    osc.frequency.value = freq;
+    g.gain.setValueAtTime(0.10, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + BEAT * 0.82);
+    osc.connect(g); g.connect(gainNode);
+    osc.start(t); osc.stop(t + BEAT * 0.88);
+  }
+
+  function makeBass(t) {
+    const osc = ctx().createOscillator();
+    const g = ctx().createGain();
+    osc.type = 'triangle';
+    osc.frequency.value = 130.81; // C3
+    g.gain.setValueAtTime(0.16, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + BEAT * 1.8);
+    osc.connect(g); g.connect(gainNode);
+    osc.start(t); osc.stop(t + BEAT * 2);
+  }
+
+  function schedule() {
+    if (!running) return;
+    ensureGain();
+    const now = ctx().currentTime;
+    while (nextBeatTime < now + LOOK_AHEAD) {
+      const beat = beatCount % 4;
+      const mel  = beatCount % 16;
+
+      if (beat === 0 || beat === 2) makeKick(nextBeatTime);
+      if (beat === 1 || beat === 3) makeSnare(nextBeatTime);
+      makeHihat(nextBeatTime);
+      makeHihat(nextBeatTime + BEAT * 0.5, 0.05);
+
+      makeMelody(MELODY[mel], nextBeatTime);
+
+      if (beat === 0) makeBass(nextBeatTime);
+
+      nextBeatTime += BEAT;
+      beatCount++;
+    }
+    schedulerId = setTimeout(schedule, SCHED_INTERVAL);
+  }
+
+  return {
+    start() {
+      if (running) return;
+      ensureGain();
+      running = true;
+      nextBeatTime = ctx().currentTime + 0.15;
+      beatCount = 0;
+      schedule();
+    },
+    stop() {
+      running = false;
+      clearTimeout(schedulerId);
+    },
+    setMuted(muted) {
+      if (!gainNode) return;
+      gainNode.gain.value = muted ? 0 : 0.28;
+    }
+  };
+})();
+
+/* ----- SFX ----- */
+function playTone(freq, duration, type, volume, slideTo) {
   if (!soundEnabled) return;
   try {
     const ctx = getAudio();
     const osc = ctx.createOscillator();
     const gain = ctx.createGain();
-    osc.type = type;
+    osc.type = type || 'sine';
     osc.frequency.setValueAtTime(freq, ctx.currentTime);
-    if (slideTo !== null) {
-      osc.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime + duration);
-    }
-    gain.gain.setValueAtTime(volume, ctx.currentTime);
+    if (slideTo != null) osc.frequency.exponentialRampToValueAtTime(slideTo, ctx.currentTime + duration);
+    gain.gain.setValueAtTime(volume || 0.2, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + duration);
-  } catch (e) { /* audio blocked */ }
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(); osc.stop(ctx.currentTime + duration);
+  } catch (e) {}
 }
 
 const sfx = {
-  // "BWOOP!" launch sound for the start button
-  heroLaunch: () => {
+  heroLaunch() {
     playTone(200, 0.2, 'square', 0.15, 600);
     setTimeout(() => playTone(600, 0.3, 'sawtooth', 0.12, 1000), 100);
   },
-  // Quick "click" for option buttons
-  click: () => {
+  click() {
     playTone(800, 0.05, 'square', 0.15);
     setTimeout(() => playTone(1200, 0.05, 'square', 0.12), 50);
   },
-  // "Whoosh" when a video starts
-  whoosh: () => {
-    playTone(100, 0.4, 'sawtooth', 0.1, 800);
-  },
-  // "Ding!" when advancing
-  ding: () => {
+  whoosh() { playTone(100, 0.4, 'sawtooth', 0.1, 800); },
+  ding() {
     playTone(880, 0.1, 'sine', 0.2);
     setTimeout(() => playTone(1320, 0.15, 'sine', 0.2), 80);
   },
-  // Victory fanfare for end screen
-  victory: () => {
-    const notes = [523, 659, 784, 1047]; // C-E-G-C
-    notes.forEach((n, i) => {
+  victory() {
+    [523, 659, 784, 1047].forEach((n, i) => {
       setTimeout(() => playTone(n, 0.25, 'square', 0.15), i * 120);
     });
     setTimeout(() => playTone(1568, 0.5, 'sawtooth', 0.18), 600);
   }
 };
 
+/* ----- SPEECH ----- */
+function speak(text) {
+  if (!soundEnabled) return;
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.rate = 0.92;
+  utter.pitch = 1.05;
+  utter.volume = 1.0;
+  window.speechSynthesis.speak(utter);
+}
+
 function toggleMute() {
   soundEnabled = !soundEnabled;
   document.getElementById('muteBtn').textContent = soundEnabled ? '🔊' : '🔇';
+  bgMusic.setMuted(!soundEnabled);
+  if (!soundEnabled && window.speechSynthesis) window.speechSynthesis.cancel();
   if (soundEnabled) sfx.click();
 }
 
-/* ===== VIDEO HANDLING ===== */
+/* ============================================================
+   VIDEO HANDLING
+   ============================================================ */
 
 function buildVideoUrl(filename) {
-  return VIDEO_BASE_URL + encodeURI(filename);
+  return VIDEO_BASE_URL + encodeURIComponent(filename);
 }
 
-function loadVideo(player, filenameEl, filename, label) {
+const videoPlayer    = document.getElementById('videoPlayer');
+const endVideoPlayer = document.getElementById('endVideoPlayer');
+const videoError     = document.getElementById('videoError');
+
+function loadVideo(player, filename, label) {
   videoError.classList.remove('show');
   if (label) document.getElementById('videoLabel').textContent = label;
-  filenameEl.textContent = `📁 ${filename}`;
   player.src = buildVideoUrl(filename);
   player.load();
-  const playPromise = player.play();
-  if (playPromise !== undefined) {
-    playPromise.catch(() => { /* autoplay may be blocked, controls are visible */ });
-  }
+  const p = player.play();
+  if (p) p.catch(() => {});
 }
 
-videoPlayer.addEventListener('error', () => {
-  videoError.classList.add('show');
+videoPlayer.addEventListener('error', () => videoError.classList.add('show'));
+
+videoPlayer.addEventListener('ended', () => {
+  if (!isShowingIntro && pendingRobotCell && !robotPopupActive) {
+    robotPopupActive = true;
+    showRobotPopup();
+  }
 });
 
-/* ===== SCREEN MANAGEMENT ===== */
+/* ============================================================
+   SCREEN MANAGEMENT
+   ============================================================ */
+
+const titleScreen    = document.getElementById('titleScreen');
+const questionScreen = document.getElementById('questionScreen');
+const videoScreen    = document.getElementById('videoScreen');
+const endScreen      = document.getElementById('endScreen');
 
 function showOnly(screen) {
   [titleScreen, questionScreen, videoScreen, endScreen].forEach(s => s.classList.add('hidden'));
@@ -705,59 +955,94 @@ function showOnly(screen) {
 }
 
 function renderProgress() {
-  const progressEl = document.getElementById('progress');
-  progressEl.innerHTML = '';
+  const el = document.getElementById('progress');
+  el.innerHTML = '';
   GAME_DATA.questions.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'progress-dot';
     if (i < currentQuestionIndex) dot.classList.add('done');
     if (i === currentQuestionIndex) dot.classList.add('active');
-    progressEl.appendChild(dot);
+    el.appendChild(dot);
   });
 }
 
-/* ===== GAME FLOW ===== */
+/* ============================================================
+   GAME FLOW
+   ============================================================ */
 
 function startGame() {
   sfx.heroLaunch();
   currentQuestionIndex = 0;
   isShowingIntro = true;
+  pendingRobotCell = null;
+  robotPopupActive = false;
+  bgMusic.start();
   setTimeout(() => sfx.whoosh(), 300);
-  loadVideo(videoPlayer, document.getElementById('videoFilename'), GAME_DATA.introVideo, "🎬 GET READY, HERO! 🎬");
+  loadVideo(videoPlayer, GAME_DATA.introVideo, "🎬 GET READY, HERO! 🎬");
   showOnly(videoScreen);
 }
 
 function showQuestion() {
   const q = GAME_DATA.questions[currentQuestionIndex];
-  document.getElementById('questionCounter').textContent = `QUESTION ${currentQuestionIndex + 1} OF ${GAME_DATA.questions.length}`;
+  document.getElementById('questionCounter').textContent =
+    `QUESTION ${currentQuestionIndex + 1} OF ${GAME_DATA.questions.length}`;
   document.getElementById('questionText').textContent = q.text;
   document.getElementById('optionAText').textContent = q.optionA.label;
   document.getElementById('optionBText').textContent = q.optionB.label;
   renderProgress();
   showOnly(questionScreen);
+  setTimeout(() => speak(q.text), 500);
 }
 
 function chooseOption(choice) {
   sfx.click();
   const q = GAME_DATA.questions[currentQuestionIndex];
-  const filename = choice === 'a' ? q.optionA.video : q.optionB.video;
+  const option = choice === 'a' ? q.optionA : q.optionB;
+  pendingRobotCell = option.robotCell;
+  robotPopupActive = false;
   setTimeout(() => sfx.whoosh(), 100);
-  loadVideo(videoPlayer, document.getElementById('videoFilename'), filename, "🎬 WATCH WHAT HAPPENS! 🎬");
+  loadVideo(videoPlayer, option.video, "🎬 WATCH WHAT HAPPENS! 🎬");
   showOnly(videoScreen);
 }
 
-function nextQuestion() {
-  sfx.ding();
+function handleNextBtn() {
   videoPlayer.pause();
   videoPlayer.removeAttribute('src');
   videoPlayer.load();
 
   if (isShowingIntro) {
+    sfx.ding();
     isShowingIntro = false;
     showQuestion();
     return;
   }
 
+  if (pendingRobotCell && !robotPopupActive) {
+    robotPopupActive = true;
+    showRobotPopup();
+    return;
+  }
+
+  // Popup already handled via robotMoved(), shouldn't reach here normally
+  advanceGame();
+}
+
+function showRobotPopup() {
+  document.getElementById('robotCellDisplay').textContent = pendingRobotCell;
+  document.getElementById('robotPopup').classList.remove('hidden');
+  speak(`Move your robot to ${pendingRobotCell}`);
+}
+
+function robotMoved() {
+  sfx.ding();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  document.getElementById('robotPopup').classList.add('hidden');
+  robotPopupActive = false;
+  pendingRobotCell = null;
+  advanceGame();
+}
+
+function advanceGame() {
   currentQuestionIndex++;
   if (currentQuestionIndex >= GAME_DATA.questions.length) {
     showEndScreen();
@@ -767,7 +1052,8 @@ function nextQuestion() {
 }
 
 function showEndScreen() {
-  loadVideo(endVideoPlayer, document.getElementById('endVideoFilename'), GAME_DATA.endVideo, null);
+  bgMusic.stop();
+  loadVideo(endVideoPlayer, GAME_DATA.endVideo, null);
   showOnly(endScreen);
   setTimeout(() => sfx.victory(), 200);
   launchConfetti();
@@ -777,6 +1063,8 @@ function restartGame() {
   sfx.click();
   currentQuestionIndex = 0;
   isShowingIntro = true;
+  pendingRobotCell = null;
+  robotPopupActive = false;
   videoPlayer.pause();
   videoPlayer.removeAttribute('src');
   endVideoPlayer.pause();
@@ -784,7 +1072,9 @@ function restartGame() {
   showOnly(titleScreen);
 }
 
-/* ===== CONFETTI ===== */
+/* ============================================================
+   CONFETTI
+   ============================================================ */
 function launchConfetti() {
   const colors = ['#ffd60a', '#e63946', '#1d8cf8', '#80b918', '#7b2cbf'];
   for (let i = 0; i < 60; i++) {
